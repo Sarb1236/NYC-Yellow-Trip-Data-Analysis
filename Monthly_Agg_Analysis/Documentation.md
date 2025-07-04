@@ -63,7 +63,7 @@ Using this notebook's approach, for the same scenario (2 vendors, 30 days, multi
 
 This leads to:
 * **Significant Storage Reduction**: Instead of 30 rows per vendor per month, you get just 1.
-* **Optimized Trend Analysis**: An entire month's data for a vendor is in a single row, minimizing joins and speeding up dashboard loads.
+* **Optimized Trend Analysis**: An entire month's data for a vendor is in a single row, minimizing joins shuffles.
 
 ### 2. IoT Device Telemetry Analysis
 
