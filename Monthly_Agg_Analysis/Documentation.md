@@ -1,6 +1,6 @@
 # Compact Monthly Vendor Activity Table Documentation
 
-This repository contains a Jupyter Notebook (`fact_vendor_activity_compact_layman.ipynb`) designed to transform detailed NYC Taxi trip records into a highly space-efficient monthly summary for each taxi vendor. This approach is ideal for reducing storage and improving the performance of analytical queries and dashboards.
+This repository contains a Jupyter Notebook (`fact_vendor_activity_compact.ipynb`) designed to transform detailed NYC Taxi trip records into a highly space-efficient monthly summary for each taxi vendor. This approach is ideal for reducing storage and improving the performance of analytical queries and dashboards.
 
 ## What the Code Does
 
