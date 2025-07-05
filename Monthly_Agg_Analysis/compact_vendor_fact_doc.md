@@ -207,14 +207,6 @@ SELECT * FROM final_daily WHERE vendorID=2 AND activity_month='2019-09-01' ORDER
 
 ##  Comparison with Other Tables
 
-To validate benefits and efficiency, the notebook compares three table formats:
-
-| Table                        | Granularity                          | Approx. Row Count | Storage Impact |
-| ---------------------------- | ------------------------------------ | ----------------- | -------------- |
-| `yellow_tripdata`            | Individual Trips                     | \~1.5 billion+    | Very High      |
-| `fact_vendor_daily_activity` | Daily Summary per Vendor             | Millions          | Medium         |
-| `fact_vendor_activity`       | Monthly per Vendor with daily arrays | Thousands         | **Very Low** ✅ |
-
 > **Print Sizes & Counts**
 
 ```python
@@ -232,7 +224,7 @@ for tbl in ["yellow_tripdata","fact_vendor_daily_activity","fact_vendor_activity
 ##  Benefits of This Approach
 
 - **Storage Efficiency:** Reduces rows by 30× per vendor/month, storing daily metrics in arrays.
-- **Query Performance:** Smaller fact table means faster scans and joins in analytics tools (e.g., Power BI).
+- **Query Performance:** Smaller fact table means faster scans and joins .
 - **Flexibility:** Arrays can be exploded back to day‑level for anomaly detection or trend analysis.
 - **Reduced Shuffling:** Minimal data movement when joining with dimension tables (e.g., `dim_vendor`).
 
@@ -256,15 +248,5 @@ for tbl in ["yellow_tripdata","fact_vendor_daily_activity","fact_vendor_activity
 
 - Summarize daily user sessions or event counts per site/per month into arrays for quick monthly overviews and drill‑downs.
 
----
 
-##  Next Steps & Extensions
-
-- **ER Diagram / Workflow Chart:** Visualize data flow: Raw → Daily Summary → Monthly Fact.
-- **PDF Export:** Generate a PDF version for sharing or course materials.
-- **Course Module:** Incorporate into Udemy or internal training, with live demos and quizzes.
-
----
-
-*Documentation updated with full code, outputs, comparisons, benefits, and use cases.*
 
