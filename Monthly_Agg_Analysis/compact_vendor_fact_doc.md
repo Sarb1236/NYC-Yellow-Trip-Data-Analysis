@@ -1,14 +1,14 @@
-# 📄 Compact Monthly Vendor Activity Table Documentation
+# Compact Monthly Vendor Activity Table Documentation
 
 This documentation accompanies a Jupyter Notebook that processes NYC Yellow Taxi trip data and transforms it into a **space-efficient monthly summary** for each taxi vendor. This compact aggregation method significantly reduces storage and enhances query performance, particularly in distributed analytics systems like Microsoft Fabric.
 
-## 🧠 Overview: What the Code Does
+## Overview: What the Code Does
 
 The notebook ingests raw `yellow_tripdata`, aggregates it at a daily level, and then compresses it into a monthly-level fact table where each vendor has **one row per month**. Within this row, daily values (e.g., trip counts, fares, tips) are stored in arrays, ordered using a **reverse-day index** (e.g., 31st = 0, 30th = 1, etc.).
 
-## 🧱 Full Code Workflow (Step-by-Step)
+## Full Code Workflow (Step-by-Step)
 
-### 🔹 Step 1: Load Raw Data
+### Step 1: Load Raw Data
 
 ```python
 from pyspark.sql.functions import *
@@ -20,7 +20,7 @@ df.show(50, truncate=False)
 
 ---
 
-### 🔹 Step 2: Create Date Columns
+### Step 2: Create Date Columns
 
 ```python
 from pyspark.sql.functions import dayofmonth, last_day, to_date, trunc
@@ -35,7 +35,7 @@ df = df.withColumn("trip_date", to_date("tpepPickupDateTime")) \
 
 ---
 
-### 🔹 Step 3: Aggregate Daily Activity
+### Step 3: Aggregate Daily Activity
 
 ```python
 from pyspark.sql.functions import sum as F_sum, count
@@ -69,7 +69,7 @@ daily_summary.orderBy("vendorID", "activity_month", "reverse_day_index").show(50
 
 ---
 
-### 🔹 Step 4: Ensure All Days Are Present
+### Step 4: Ensure All Days Are Present
 
 ```python
 max_days = 31
@@ -86,7 +86,7 @@ full_with_summary.orderBy("vendorID", "activity_month", "reverse_day_index").sho
 
 ---
 
-### 🔹 Step 5: Prepare Data for Compression
+###  Step 5: Prepare Data for Compression
 
 ```python
 from pyspark.sql.functions import coalesce, lit, when
@@ -107,7 +107,7 @@ processed_ordered = full_with_summary.withColumn("activity_flag_val", when(col("
 
 ---
 
-### 🔹 Step 6: Build Compact Fact Table with Arrays
+###  Step 6: Build Compact Fact Table with Arrays
 
 ```python
 from pyspark.sql.functions import collect_list, sort_array, struct
@@ -149,7 +149,7 @@ fact_vendor_activity.orderBy("vendorID", "activity_month").show(5, truncate=Fals
 
 ---
 
-### 🔹 Step 7: Save Table
+### Step 7: Save Table
 
 ```python
 fact_vendor_activity.write \
@@ -162,7 +162,7 @@ fact_vendor_activity.write \
 
 ---
 
-### 🔹 Step 8: Explode and Validate
+###  Step 8: Explode and Validate
 
 ```sql
 -- Explode back to daily granularity
@@ -205,7 +205,7 @@ SELECT * FROM final_daily WHERE vendorID=2 AND activity_month='2019-09-01' ORDER
 
 ---
 
-## 🧪 Comparison with Other Tables
+##  Comparison with Other Tables
 
 To validate benefits and efficiency, the notebook compares three table formats:
 
@@ -229,7 +229,7 @@ for tbl in ["yellow_tripdata","fact_vendor_daily_activity","fact_vendor_activity
 
 ---
 
-## 🚀 Benefits of This Approach
+##  Benefits of This Approach
 
 - **Storage Efficiency:** Reduces rows by 30× per vendor/month, storing daily metrics in arrays.
 - **Query Performance:** Smaller fact table means faster scans and joins in analytics tools (e.g., Power BI).
@@ -238,7 +238,7 @@ for tbl in ["yellow_tripdata","fact_vendor_daily_activity","fact_vendor_activity
 
 ---
 
-## 📊 Real-World Use Cases
+##  Real-World Use Cases
 
 ### 1. NYC Taxi Vendor Activity
 
@@ -258,7 +258,7 @@ for tbl in ["yellow_tripdata","fact_vendor_daily_activity","fact_vendor_activity
 
 ---
 
-## 📐 Next Steps & Extensions
+##  Next Steps & Extensions
 
 - **ER Diagram / Workflow Chart:** Visualize data flow: Raw → Daily Summary → Monthly Fact.
 - **PDF Export:** Generate a PDF version for sharing or course materials.
