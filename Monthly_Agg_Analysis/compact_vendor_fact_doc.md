@@ -1,6 +1,6 @@
 # Compact Monthly Vendor Activity Table Documentation
 
-This documentation accompanies a Jupyter Notebook that processes NYC Yellow Taxi trip data and transforms it into a **space-efficient monthly summary** for each taxi vendor. This compact aggregation method significantly reduces storage and enhances query performance, particularly in distributed analytics systems like Microsoft Fabric.
+This project explores efficient data modeling and compression techniques for NYC Yellow Taxi trip data using PySpark on Microsoft Fabric. The goal is to reduce storage footprint and improve query performance while maintaining the ability to conduct granular day-level analysis.
 
 ## Overview: What the Code Does
 
